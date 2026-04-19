@@ -7,7 +7,7 @@ app.use(cors());
 app.use(express.json());
 
 // CONNECT TO MONGODB
-mongoose.connect("mongodb://127.0.0.1:27017/plantDB")
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
 
@@ -31,14 +31,6 @@ app.post("/plants", async (req, res) => {
   res.json({ message: "Plant saved" });
 });
 
-// SERVER
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
-});
-app.get("/", (req, res) => {
-  res.send("Backend is running 🚀");
-});
-
 app.delete("/plants/:id", async (req, res) => {
   try {
     await Plant.findByIdAndDelete(req.params.id);
@@ -46,4 +38,15 @@ app.delete("/plants/:id", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+});
+
+// ROOT ROUTE
+app.get("/", (req, res) => {
+  res.send("Backend is running 🚀");
+});
+
+// SERVER
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
