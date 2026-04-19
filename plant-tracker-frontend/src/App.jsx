@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import "./index.css";
 
 function App() {
   const [plants, setPlants] = useState([]);
@@ -25,44 +25,28 @@ function App() {
     <div>
       <h1>🌱 Plant Tracker</h1>
 
-      <div style={{ marginBottom: "20px" }}>
+      <div className="input-box">
         <input
           type="text"
           placeholder="Enter plant name..."
           value={name}
           onChange={(e) => setName(e.target.value)}
-          style={{
-            padding: "10px",
-            fontSize: "16px",
-            marginRight: "10px",
-          }}
         />
+
         <button onClick={addPlant}>Add Plant</button>
       </div>
 
       {plants.length === 0 ? (
         <p>No plants added yet 🌿</p>
       ) : (
-        <div>
-          {plants.map((plant) => (
-            <div
-              key={plant.id}
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                padding: "10px",
-                border: "1px solid #ccc",
-                marginBottom: "10px",
-                borderRadius: "8px",
-              }}
-            >
-              <span>{plant.name}</span>
-              <button onClick={() => deletePlant(plant.id)}>
-                Delete
-              </button>
-            </div>
-          ))}
-        </div>
+        plants.map((plant) => (
+          <div key={plant.id} className="plant-card">
+            <span>{plant.name}</span>
+            <button onClick={() => deletePlant(plant.id)}>
+              Delete
+            </button>
+          </div>
+        ))
       )}
     </div>
   );
